@@ -18,7 +18,7 @@ require(stringr)
 ## Inputs: file.location, a valid file and path to the text file
 ## Outputs: a list of strings, each one corresponding to a single
 ##          line in the text file
-bing.read.file <- function(file.location){
+read.file <- function(file.location){
   con <- file(file.location)
   open(con)
   results.list <- list()

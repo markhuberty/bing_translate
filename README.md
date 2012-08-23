@@ -10,8 +10,7 @@ Introduction
 
     ## Basic usage:
     ## Read in the files as a list of character vectors and encode
-    filename.list <- c("file1.txt", "file2.txt")
-    files <- lapply(filename.list, bing.read.file)
+    files <- c("file1.txt", "file2.txt")
     formatted.text <- lapply(files, function(x){
 
       out <- bing.format(text.file=x,
