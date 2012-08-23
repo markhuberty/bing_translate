@@ -6,10 +6,10 @@ R code for translating text via the Bing Translate API.
 Introduction
 -------------
 
-~bing_translate~ provides a simple interface for formatting text and submitting it to the Bing Translate API. It loads raw text as a UTF-8 formatted string, formats the text as a valid URL For submission, and translates the text via the Bing Translate API. The core translation functions attempt to detect the language of the input text, and will only translate if the input language is not the same as the output language. Basic error handling and delay routines attempt o avoid offending the API usage rules. 
+`bing_translate` provides a simple interface for formatting text and submitting it to the Bing Translate API. It loads raw text as a UTF-8 formatted string, formats the text as a valid URL query, and submits the query to the Bing Translate API for translation. The core translation functions attempt to detect the language of the input text, and will only translate if the input language is not the same as the output language. Basic error handling and delay routines attempt to avoid offending the API usage rules. 
 
     ## Basic usage:
-    ## Read in the files as a character vector and encode
+    ## Read in the files as a list of character vectors and encode
     filename.list <- c("file1.txt", "file2.txt")
     files <- lapply(filename.list, bing.read.file)
     formatted.text <- lapply(files, function(x){
