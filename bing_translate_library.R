@@ -18,7 +18,7 @@ require(stringr)
 ## Inputs: file.location, a valid file and path to the text file
 ## Outputs: a list of strings, each one corresponding to a single
 ##          line in the text file
-read.file <- function(file.location){
+bing.read.file <- function(file.location){
   con <- file(file.location)
   open(con)
   results.list <- list()
@@ -66,7 +66,7 @@ encode.list <- function(text.list){
 }
 
 
-## read.fun.bing reads in data from a text file, encodes it
+## bing.format reads in data from a text file, encodes it
 ## as a url, and chops it up into subsections of valid lengths for submission
 ## to bing.
 ## Inputs: text.file, a valid filepath and text file
@@ -75,7 +75,7 @@ encode.list <- function(text.list){
 ##         char.limit: how long should a single request be? Bing's API
 ##                     suggests 2000 characters is the limit.
 ## Outputs: A list of url-encoded strings 
-read.fun.bing <- function(text.file, encoding="URL", char.limit=2000){
+bing.format <- function(text.file, encoding="URL", char.limit=2000){
 
   results.list <- read.file(text.file)
 
@@ -166,14 +166,14 @@ bing.detect <- function(text, apikey){
 }
 
 
-## bing.translate takes a string to be translated and returns a translated
+## translate.formatted.string takes a string to be translated and returns a translated
 ## string. Users can specify the desired translation language.
 ## Inputs: text: a valid url-encoded text string
 ##         lang.in: the ISO language code for the string
 ##         lang.out: the language to translate the string int
 ##         apikey: a valid Bing api key
 ## Outputs: A translated version of the input string
-bing.translate <- function(text, lang.in, lang.out="en", apikey){
+translate.formatted.string <- function(text, lang.in, lang.out="en", apikey){
   bing.url <-
     paste("http://api.microsofttranslator.com/v2/Http.svc/Translate?appId=",
           apiID,
@@ -202,7 +202,7 @@ bing.translate <- function(text, lang.in, lang.out="en", apikey){
 }
 
 
-## bing.translate.fun takes as input a list of lists of text strings
+## bing.translate takes as input a list of lists of text strings
 ## (representing multiple documents, each chopped up and encoded)
 ## and translates them all. If the string is already in the right language,
 ## it just re-assembles the string from the input
@@ -211,7 +211,7 @@ bing.translate <- function(text, lang.in, lang.out="en", apikey){
 ##         lang.out: a valid 2-letter ISO language code
 ##         apikey: a valid Bing api key
 ## Outputs: a list of translated documents, represented as strings
-bing.translate.fun <- function(text.list, lang.out, apikey){
+bing.translate <- function(text.list, lang.out, apikey){
 
   first.time <- TRUE
   list.out <- lapply(text.list, function(x){
@@ -250,11 +250,11 @@ bing.translate.fun <- function(text.list, lang.out, apikey){
                   if(lang.in != lang.out)
                     {
                       print("translating")
-                      en.string <- bing.translate(text=text.in[[i]],
-                                                  lang.in=lang.in,
-                                                  lang.out=lang.out,
-                                                  apikey=apikey
-                                                  )
+                      en.string <- translate.formatted.string(text=text.in[[i]],
+                                                              lang.in=lang.in,
+                                                              lang.out=lang.out,
+                                                              apikey=apikey
+                                                              )
                       
                       ## If I called the translate API,
                       ## slow things down to avoid rate limiting
@@ -302,7 +302,7 @@ bing.translate.fun <- function(text.list, lang.out, apikey){
 ## First encode the files
 ## raw.ocr.bing <- lapply(files, function(x){
 
-## out <- read.fun.bing(text.file=x,
+## out <- bing.format(text.file=x,
 ##                      encoding="URL",
 ##                      char.limit=1000
 ##                      )
@@ -311,8 +311,8 @@ bing.translate.fun <- function(text.list, lang.out, apikey){
 
 ## Then translate:
 ## apiID <- "myapiid"
-## translated.text <- bing.translate.fun(raw.ocr.bing,
-##                                       lang.out="en",
-##                                       apikey=apiID
-##                                       )
+## translated.text <- bing.translate(raw.ocr.bing,
+##                                   lang.out="en",
+##                                   apikey=apiID
+##                                   )
 
